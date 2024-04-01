@@ -18,7 +18,7 @@ impl<'a> Meta<'a> {
     ///
     /// The buffer is required to avoid allocations on the crate side.
     /// Use [Meta::size] to calculate the required buffer size.
-    pub fn encode(&self, buf: &'a mut [u8]) -> Result<&'a mut [u8], postcard::Error> {
+    pub fn encode<'b>(&self, buf: &'b mut [u8]) -> Result<&'b mut [u8], postcard::Error> {
         postcard::to_slice(self, buf)
     }
 

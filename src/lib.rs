@@ -3,4 +3,4 @@ mod meta;
 mod validators;
 
 pub use meta::Meta;
-pub use validators::valid_id;
+pub use validators::{valid_id, valid_name};
