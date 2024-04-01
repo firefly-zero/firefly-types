@@ -1,4 +1,3 @@
-use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
@@ -14,8 +13,18 @@ impl<'a> Meta<'a> {
         postcard::from_bytes(s)
     }
 
-    pub fn encode(&self) -> Result<Vec<u8>, postcard::Error> {
-        postcard::to_allocvec(self)
+    /// Encode the matadata using the buffer.
+    ///
+    /// The buffer is required to avoid allocations on the crate side.
+    /// Use [Meta::size] to calculate the required buffer size.
+    pub fn encode(&self, buf: &'a mut [u8]) -> Result<&'a mut [u8], postcard::Error> {
+        postcard::to_slice(self, buf)
+    }
+
+    /// Calculate the buffer size required to encode the meta.
+    pub fn size(&self) -> usize {
+        let flavor = postcard::ser_flavors::Size::default();
+        postcard::serialize_with_flavor(self, flavor).unwrap()
     }
 }
 
@@ -31,8 +40,9 @@ mod tests {
             author_id:   "some-author-id",
             author_name: "Some Author Name",
         };
-        let raw = given.encode().unwrap();
-        let actual = Meta::decode(&raw).unwrap();
+        let mut buf = vec![0; given.size()];
+        let raw = given.encode(&mut buf).unwrap();
+        let actual = Meta::decode(raw).unwrap();
         assert_eq!(given, actual);
     }
 }
