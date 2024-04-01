@@ -58,6 +58,25 @@ pub fn valid_name(s: &str) -> bool {
     true
 }
 
+// Validate a path component (file or directory name).
+pub fn valid_path_part(s: &str) -> bool {
+    if s.starts_with('.') {
+        return false;
+    }
+    if s.is_empty() {
+        return false;
+    }
+    for c in s.bytes() {
+        if c.is_ascii_alphanumeric() {
+            continue;
+        }
+        if c != b'.' && c != b'_' && c != b'-' {
+            return false;
+        }
+    }
+    true
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -119,5 +138,31 @@ mod tests {
         assert!(!valid_name("ab\tcd"));
         assert!(!valid_name("тест"));
         assert!(!valid_name("?hello"));
+    }
+
+    #[test]
+    fn test_valid_path_part() {
+        assert!(valid_path_part("app"));
+        assert!(valid_path_part("a"));
+        assert!(valid_path_part("some-app"));
+        assert!(valid_path_part("App"));
+        assert!(valid_path_part("file.wasm"));
+        assert!(valid_path_part("file_name.wasm"));
+        assert!(valid_path_part("FileName.wasm"));
+    }
+
+    #[test]
+    fn test_invalid_path_part() {
+        assert!(!valid_path_part(".gitignore"));
+        assert!(!valid_path_part(".."));
+        assert!(!valid_path_part("/"));
+        assert!(!valid_path_part("./"));
+        assert!(!valid_path_part("???"));
+        assert!(!valid_path_part("file/../root"));
+        assert!(!valid_path_part("file name"));
+        assert!(!valid_path_part(" file"));
+        assert!(!valid_path_part("file "));
+        assert!(!valid_path_part(""));
+        assert!(!valid_path_part(" "));
     }
 }
