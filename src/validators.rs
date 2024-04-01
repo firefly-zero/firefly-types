@@ -33,20 +33,29 @@ pub fn valid_name(s: &str) -> bool {
     if s.len() > 40 {
         return false;
     }
-    if s.starts_with(' ') || s.ends_with(' ') {
+    if s.ends_with(' ') {
         return false;
     }
-    let mut alnum_found = false;
-    for c in s.bytes() {
+    let mut b = s.bytes();
+    match b.next() {
+        // Must start with a letter.
+        Some(c) => {
+            if !c.is_ascii_alphabetic() {
+                return false;
+            }
+        }
+        // Must not be empty.
+        None => return false,
+    }
+    for c in b {
         if c.is_ascii_alphanumeric() {
-            alnum_found = true;
             continue;
         }
         if !c.is_ascii_punctuation() && c != b' ' {
             return false;
         }
     }
-    alnum_found
+    true
 }
 
 #[cfg(test)]
@@ -83,6 +92,7 @@ mod tests {
         assert!(!valid_id(" "));
         assert!(!valid_id("-"));
         assert!(!valid_id("--"));
+        assert!(!valid_id("?hello"));
     }
 
     #[test]
@@ -94,6 +104,9 @@ mod tests {
         assert!(valid_name("Some app"));
         assert!(valid_name("Some App"));
         assert!(valid_name("SOME APP"));
+        assert!(valid_name("Hello"));
+        assert!(valid_name("Hello?"));
+        assert!(valid_name("Yes? Yes!"));
     }
 
     #[test]
@@ -105,5 +118,6 @@ mod tests {
         assert!(!valid_name("abc "));
         assert!(!valid_name("ab\tcd"));
         assert!(!valid_name("тест"));
+        assert!(!valid_name("?hello"));
     }
 }
