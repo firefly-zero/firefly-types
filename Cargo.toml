@@ -4,5 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+# serialization format designed for no-std embedded systems
 postcard = { version = "1.0.8", default-features = false }
+# data serialization framework
 serde = { version = "1.0.197", default-features = false }
