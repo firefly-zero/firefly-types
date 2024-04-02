@@ -58,7 +58,7 @@ pub fn valid_name(s: &str) -> bool {
     true
 }
 
-// Validate a path component (file or directory name).
+/// Validate a path component (file or directory name).
 pub fn valid_path_part(s: &str) -> bool {
     if s.starts_with('.') {
         return false;
