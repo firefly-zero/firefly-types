@@ -2,10 +2,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub struct Meta<'a> {
-    app_id:      &'a str,
-    app_name:    &'a str,
-    author_id:   &'a str,
-    author_name: &'a str,
+    pub app_id:      &'a str,
+    pub app_name:    &'a str,
+    pub author_id:   &'a str,
+    pub author_name: &'a str,
 }
 
 impl<'a> Meta<'a> {

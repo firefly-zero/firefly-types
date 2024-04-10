@@ -9,6 +9,7 @@ pub enum ValidationError {
     TooLong,
     TrailingSpace,
     TrailingDot,
+    Reserved,
 }
 
 impl Display for ValidationError {
@@ -28,6 +29,7 @@ impl Display for ValidationError {
             ValidationError::TooLong => write!(f, "too long"),
             ValidationError::TrailingSpace => write!(f, "must not start or end with space"),
             ValidationError::TrailingDot => write!(f, "must not start or end with dot"),
+            ValidationError::Reserved => write!(f, "the name is reserved"),
         }
     }
 }
@@ -103,6 +105,9 @@ pub fn validate_path_part(s: &str) -> Result<(), ValidationError> {
     if s.is_empty() {
         return Err(ValidationError::Empty);
     }
+    if s == "meta" || s == "bin" {
+        return Err(ValidationError::Reserved);
+    }
     for c in s.bytes() {
         if c.is_ascii_alphanumeric() {
             continue;
@@ -124,8 +129,8 @@ mod tests {
         assert!(validate_id("some-app").is_ok());
         assert!(validate_id("some-app-13").is_ok());
         assert!(validate_id("13app").is_ok());
-        assert!(validate_id("relatively-long-app-name").is_ok());
         assert!(validate_id("a").is_ok());
+        assert!(validate_id("a-bit-long-name").is_ok());
     }
 
     #[test]
@@ -149,6 +154,7 @@ mod tests {
         assert!(validate_id("-").is_err());
         assert!(validate_id("--").is_err());
         assert!(validate_id("?hello").is_err());
+        assert!(validate_id("a-very-long-app-name").is_err());
     }
 
     #[test]
@@ -201,5 +207,7 @@ mod tests {
         assert!(validate_path_part("file ").is_err());
         assert!(validate_path_part("").is_err());
         assert!(validate_path_part(" ").is_err());
+        assert!(validate_path_part("bin").is_err());
+        assert!(validate_path_part("meta").is_err());
     }
 }
