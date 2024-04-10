@@ -40,6 +40,9 @@ impl Display for ValidationError {
 /// Without ID validation, an app may use a malformed ID (like "../../../")
 /// to gain access to arbitrary files of other apps, including secrets.
 pub fn validate_id(s: &str) -> Result<(), ValidationError> {
+    if s.len() > 16 {
+        return Err(ValidationError::TooLong);
+    }
     if s.starts_with('-') || s.ends_with('-') {
         return Err(ValidationError::TrailingMinus);
     }
