@@ -3,5 +3,5 @@
 mod meta;
 mod validators;
 
-pub use meta::Meta;
+pub use meta::{Meta, ShortMeta};
 pub use validators::*;

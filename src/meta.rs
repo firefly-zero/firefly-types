@@ -29,6 +29,32 @@ impl<'a> Meta<'a> {
     }
 }
 
+/// A struct with only a few safe fields from Meta.
+///
+/// It is used to serialize information about an app outside of the app dir.
+/// Since it is outside, it escapes the hash and signature checks
+/// and so it must not store any information that must be verified before use.
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
+pub struct ShortMeta<'a> {
+    pub app_id:    &'a str,
+    pub author_id: &'a str,
+}
+
+impl<'a> ShortMeta<'a> {
+    pub fn decode(s: &'a [u8]) -> Result<Self, postcard::Error> {
+        postcard::from_bytes(s)
+    }
+
+    pub fn encode<'b>(&self, buf: &'b mut [u8]) -> Result<&'b mut [u8], postcard::Error> {
+        postcard::to_slice(self, buf)
+    }
+
+    pub fn size(&self) -> usize {
+        let flavor = postcard::ser_flavors::Size::default();
+        postcard::serialize_with_flavor(self, flavor).unwrap()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
