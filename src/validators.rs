@@ -12,6 +12,28 @@ pub enum ValidationError {
     Reserved,
 }
 
+impl ValidationError {
+    pub fn as_str(&self) -> &str {
+        match self {
+            ValidationError::TrailingMinus => "must not start or end with minus",
+            ValidationError::DoubleMinus => "must not contain '--'",
+            ValidationError::Empty => "must not be empty",
+            ValidationError::InvalidChar(c) => match char::from_u32(*c as u32) {
+                Some(_) => "contains invalid character",
+                None => "must contain only valid ASCII characters",
+            },
+            ValidationError::InvalidFirstChar(c) => match char::from_u32(*c as u32) {
+                Some(_) => "starts with invalid character",
+                None => "must start with an ASCII character",
+            },
+            ValidationError::TooLong => "too long",
+            ValidationError::TrailingSpace => "must not start or end with space",
+            ValidationError::TrailingDot => "must not start or end with dot",
+            ValidationError::Reserved => "the name is reserved",
+        }
+    }
+}
+
 impl Display for ValidationError {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
