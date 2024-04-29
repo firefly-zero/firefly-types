@@ -12,22 +12,23 @@ pub enum ValidationError {
 }
 
 impl ValidationError {
-    pub fn as_str(&self) -> &str {
+    #[must_use]
+    pub const fn as_str(&self) -> &str {
         match self {
-            ValidationError::TrailingMinus => "must not start or end with minus",
-            ValidationError::DoubleMinus => "must not contain '--'",
-            ValidationError::Empty => "must not be empty",
-            ValidationError::InvalidChar(c) => match char::from_u32(*c as u32) {
+            Self::TrailingMinus => "must not start or end with minus",
+            Self::DoubleMinus => "must not contain '--'",
+            Self::Empty => "must not be empty",
+            Self::InvalidChar(c) => match char::from_u32(*c as u32) {
                 Some(_) => "contains invalid character",
                 None => "must contain only valid ASCII characters",
             },
-            ValidationError::InvalidFirstChar(c) => match char::from_u32(*c as u32) {
+            Self::InvalidFirstChar(c) => match char::from_u32(*c as u32) {
                 Some(_) => "starts with invalid character",
                 None => "must start with an ASCII character",
             },
-            ValidationError::TooLong => "too long",
-            ValidationError::TrailingSpace => "must not start or end with space",
-            ValidationError::TrailingDot => "must not start or end with dot",
+            Self::TooLong => "too long",
+            Self::TrailingSpace => "must not start or end with space",
+            Self::TrailingDot => "must not start or end with dot",
         }
     }
 }
@@ -35,20 +36,20 @@ impl ValidationError {
 impl Display for ValidationError {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
-            ValidationError::TrailingMinus => write!(f, "must not start or end with minus"),
-            ValidationError::DoubleMinus => write!(f, "must not contain '--'"),
-            ValidationError::Empty => write!(f, "must not be empty"),
-            ValidationError::InvalidChar(c) => match char::from_u32(*c as u32) {
+            Self::TrailingMinus => write!(f, "must not start or end with minus"),
+            Self::DoubleMinus => write!(f, "must not contain '--'"),
+            Self::Empty => write!(f, "must not be empty"),
+            Self::InvalidChar(c) => match char::from_u32(u32::from(*c)) {
                 Some(c) => write!(f, "must not contain {c}"),
                 None => write!(f, "must contain only valid ASCII characters"),
             },
-            ValidationError::InvalidFirstChar(c) => match char::from_u32(*c as u32) {
+            Self::InvalidFirstChar(c) => match char::from_u32(u32::from(*c)) {
                 Some(c) => write!(f, "must not start with {c}"),
                 None => write!(f, "must start with an ASCII character"),
             },
-            ValidationError::TooLong => write!(f, "too long"),
-            ValidationError::TrailingSpace => write!(f, "must not start or end with space"),
-            ValidationError::TrailingDot => write!(f, "must not start or end with dot"),
+            Self::TooLong => write!(f, "too long"),
+            Self::TrailingSpace => write!(f, "must not start or end with space"),
+            Self::TrailingDot => write!(f, "must not start or end with dot"),
         }
     }
 }
@@ -60,6 +61,10 @@ impl Display for ValidationError {
 ///
 /// Without ID validation, an app may use a malformed ID (like "../../../")
 /// to gain access to arbitrary files of other apps, including secrets.
+///
+/// # Errors
+///
+/// Returns [`ValidationError`] if any of the validation checks fails.
 pub fn validate_id(s: &str) -> Result<(), ValidationError> {
     if s.len() > 16 {
         return Err(ValidationError::TooLong);
@@ -87,6 +92,10 @@ pub fn validate_id(s: &str) -> Result<(), ValidationError> {
 /// Keep in mind that the validation DOES NOT ensure
 /// that the text is a safe file name.
 /// You need to sanitize it first to use in a file path.
+///
+/// # Errors
+///
+/// Returns [`ValidationError`] if any of the validation checks fails.
 pub fn validate_name(s: &str) -> Result<(), ValidationError> {
     if s.len() > 40 {
         return Err(ValidationError::TooLong);
@@ -117,6 +126,10 @@ pub fn validate_name(s: &str) -> Result<(), ValidationError> {
 }
 
 /// Validate a path component (file or directory name).
+///
+/// # Errors
+///
+/// Returns [`ValidationError`] if any of the validation checks fails.
 pub fn validate_path_part(s: &str) -> Result<(), ValidationError> {
     if s.starts_with('.') {
         return Err(ValidationError::TrailingDot);
