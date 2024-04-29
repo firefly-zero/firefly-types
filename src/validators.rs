@@ -9,7 +9,6 @@ pub enum ValidationError {
     TooLong,
     TrailingSpace,
     TrailingDot,
-    Reserved,
 }
 
 impl ValidationError {
@@ -29,7 +28,6 @@ impl ValidationError {
             ValidationError::TooLong => "too long",
             ValidationError::TrailingSpace => "must not start or end with space",
             ValidationError::TrailingDot => "must not start or end with dot",
-            ValidationError::Reserved => "the name is reserved",
         }
     }
 }
@@ -51,7 +49,6 @@ impl Display for ValidationError {
             ValidationError::TooLong => write!(f, "too long"),
             ValidationError::TrailingSpace => write!(f, "must not start or end with space"),
             ValidationError::TrailingDot => write!(f, "must not start or end with dot"),
-            ValidationError::Reserved => write!(f, "the name is reserved"),
         }
     }
 }
@@ -127,9 +124,6 @@ pub fn validate_path_part(s: &str) -> Result<(), ValidationError> {
     if s.is_empty() {
         return Err(ValidationError::Empty);
     }
-    // if s == "meta" || s == "bin" {
-    //     return Err(ValidationError::Reserved);
-    // }
     for c in s.bytes() {
         if c.is_ascii_alphanumeric() {
             continue;
@@ -229,7 +223,5 @@ mod tests {
         assert!(validate_path_part("file ").is_err());
         assert!(validate_path_part("").is_err());
         assert!(validate_path_part(" ").is_err());
-        // assert!(validate_path_part("bin").is_err());
-        // assert!(validate_path_part("meta").is_err());
     }
 }
