@@ -2,6 +2,13 @@
 name = "firefly-meta"
 version = "0.1.0"
 edition = "2021"
+authors = ["Firefly Zero team"]
+description = "Parser and serializer for the Firefly Zero metadata file format"
+homepage = "https://fireflyzero.com/"
+repository = "https://github.com/firefly-zero/firefly-meta"
+license = "MIT"
+keywords = ["gamedev", "serialization", "serde", "firefly-zero"]
+categories = ["encoding", "game-development", "no-std", "parsing", "wasm"]
 
 [dependencies]
 # serialization format designed for no-std embedded systems
