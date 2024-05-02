@@ -14,7 +14,7 @@ pub struct Meta<'a> {
     pub sudo:        bool,
     /// The ever-incrementing version number of the app build.
     /// Used by netplay to ensure both devices running the same version.
-    pub version:     i32,
+    pub version:     u32,
 }
 
 impl<'a> Meta<'a> {
