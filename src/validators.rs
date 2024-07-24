@@ -54,7 +54,7 @@ impl Display for ValidationError {
     }
 }
 
-/// Validate the author or the app ID.
+/// Validate the author or the app ID or the device name.
 ///
 /// The ID should have at least one character and may contain only
 /// ASCII lowercase letters, ASCII digits, and hyphen.
