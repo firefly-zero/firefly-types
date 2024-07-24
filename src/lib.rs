@@ -8,6 +8,7 @@
 #![allow(clippy::module_name_repetitions)]
 
 mod meta;
+pub mod serial;
 mod validators;
 
 pub use meta::{Meta, ShortMeta};
