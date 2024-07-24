@@ -95,7 +95,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_roundtrip() {
+    fn test_meta_roundtrip() {
         let given = Meta {
             app_id: "some-app-id",
             app_name: "Some App Name",
@@ -108,6 +108,18 @@ mod tests {
         let mut buf = vec![0; given.size()];
         let raw = given.encode(&mut buf).unwrap();
         let actual = Meta::decode(raw).unwrap();
+        assert_eq!(given, actual);
+    }
+
+    #[test]
+    fn test_short_meta_roundtrip() {
+        let given = ShortMeta {
+            app_id: "some-app-id",
+            author_id: "some-author-id",
+        };
+        let mut buf = vec![0; given.size()];
+        let raw = given.encode(&mut buf).unwrap();
+        let actual = ShortMeta::decode(raw).unwrap();
         assert_eq!(given, actual);
     }
 }

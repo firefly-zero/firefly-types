@@ -13,7 +13,7 @@ pub enum ValidationError {
 
 impl ValidationError {
     #[must_use]
-    pub const fn as_str(&self) -> &str {
+    pub const fn as_str(&self) -> &'static str {
         match self {
             Self::TrailingMinus => "must not start or end with minus",
             Self::DoubleMinus => "must not contain '--'",
