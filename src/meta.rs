@@ -33,7 +33,7 @@ impl<'a> Meta<'a> {
     ///
     /// # Errors
     ///
-    /// May return an error if the buffer is no big enough.
+    /// May return an error if the buffer is not big enough.
     pub fn encode<'b>(&self, buf: &'b mut [u8]) -> Result<&'b mut [u8], postcard::Error> {
         postcard::to_slice(self, buf)
     }
@@ -76,7 +76,7 @@ impl<'a> ShortMeta<'a> {
     ///
     /// # Errors
     ///
-    /// May return an error if the buffer is no big enough.
+    /// May return an error if the buffer is not big enough.
     pub fn encode<'b>(&self, buf: &'b mut [u8]) -> Result<&'b mut [u8], postcard::Error> {
         postcard::to_slice(self, buf)
     }
