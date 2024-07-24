@@ -1,11 +1,11 @@
 [package]
-name = "firefly-meta"
+name = "firefly-types"
 version = "0.1.2"
 edition = "2021"
 authors = ["Firefly Zero team"]
 description = "Parser and serializer for the Firefly Zero metadata file format"
 homepage = "https://fireflyzero.com/"
-repository = "https://github.com/firefly-zero/firefly-meta"
+repository = "https://github.com/firefly-zero/firefly-types"
 license = "MIT"
 keywords = ["gamedev", "serialization", "serde", "firefly-zero"]
 categories = ["encoding", "game-development", "no-std", "parsing", "wasm"]
