@@ -9,7 +9,9 @@
 
 mod meta;
 pub mod serial;
+mod stats;
 mod validators;
 
 pub use meta::{Meta, ShortMeta};
+pub use stats::Stats;
 pub use validators::*;
