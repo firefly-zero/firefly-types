@@ -9,7 +9,7 @@
 use serde::{Deserialize, Serialize};
 
 /// Messages that clients send into the runtime.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum Request {
     /// Call the `cheat` callback with the given two arguments.
     ///
@@ -52,7 +52,7 @@ impl Request {
 }
 
 /// Messages that the runtime sends to connected clients.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum Response {
     /// The value returned by the `cheat` callback.
     Cheat(i32),
@@ -95,7 +95,7 @@ impl Response {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum Callback {
     /// The `update` wasm callback.
     Update,
@@ -108,7 +108,7 @@ pub enum Callback {
 }
 
 /// The fuel consumed (wasm instructions executed) by a callback on the observed interval.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Fuel {
     /// The least fuel consumed by a single run.
     pub min: u32,
@@ -129,7 +129,7 @@ pub struct Fuel {
     pub calls: u32,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Memory {
     /// The number of linear memory pages allocated for the app.
     ///
@@ -144,7 +144,7 @@ pub struct Memory {
     pub last_one: u32,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct CPU {
     /// The time taken running the app.
     ///
@@ -155,4 +155,27 @@ pub struct CPU {
 
     /// The total duration of the observed interval, in nanoseconds.
     pub total_ns: u32,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_roundtrip_request() {
+        let given = Request::Cheat(3, 4);
+        let mut buf = vec![0; given.size()];
+        let raw = given.encode(&mut buf).unwrap();
+        let actual = Request::decode(raw).unwrap();
+        assert_eq!(given, actual);
+    }
+
+    #[test]
+    fn test_roundtrip_response() {
+        let given = Response::Cheat(13);
+        let mut buf = vec![0; given.size()];
+        let raw = given.encode(&mut buf).unwrap();
+        let actual = Response::decode(raw).unwrap();
+        assert_eq!(given, actual);
+    }
 }
