@@ -13,7 +13,7 @@ pub enum ValidationError {
 
 impl ValidationError {
     #[must_use]
-    pub const fn as_str(&self) -> &str {
+    pub const fn as_str(&self) -> &'static str {
         match self {
             Self::TrailingMinus => "must not start or end with minus",
             Self::DoubleMinus => "must not contain '--'",
@@ -54,7 +54,7 @@ impl Display for ValidationError {
     }
 }
 
-/// Validate the author or the app ID.
+/// Validate the author or the app ID or the device name.
 ///
 /// The ID should have at least one character and may contain only
 /// ASCII lowercase letters, ASCII digits, and hyphen.

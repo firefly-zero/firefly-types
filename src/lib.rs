@@ -5,9 +5,13 @@
 
 #![cfg_attr(not(test), no_std)]
 #![warn(clippy::all, clippy::pedantic, clippy::nursery, clippy::cargo)]
+#![allow(clippy::module_name_repetitions)]
 
 mod meta;
+pub mod serial;
+mod stats;
 mod validators;
 
 pub use meta::{Meta, ShortMeta};
+pub use stats::Stats;
 pub use validators::*;

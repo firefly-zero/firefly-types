@@ -1,5 +1,5 @@
 # https://taskfile.dev
-version: '3'
+version: "3"
 
 tasks:
   release:
@@ -20,6 +20,13 @@ tasks:
     desc: run tests
     cmds:
       - cargo test
+  test-cov:
+    desc: run tests with coverage report, requires llvm-cov
+    cmds:
+      # https://github.com/taiki-e/cargo-llvm-cov
+      - cargo llvm-cov test
+      - cargo llvm-cov report --cobertura --output-path coverage.xml
+      - cargo llvm-cov report --fail-under-lines 85
   lint:
     desc: run linters
     cmds:
