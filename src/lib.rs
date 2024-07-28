@@ -6,6 +6,7 @@
 #![cfg_attr(not(test), no_std)]
 #![warn(clippy::all, clippy::pedantic, clippy::nursery, clippy::cargo)]
 #![allow(clippy::module_name_repetitions)]
+#![allow(clippy::derive_partial_eq_without_eq)]
 
 mod meta;
 pub mod serial;
