@@ -18,6 +18,9 @@ pub enum Request {
     /// to execute (for exmaple, 42 for "noclip") and the second value as
     /// the command argument (for example, 0 for "disable" and 1 for "enable").
     Cheat(i32, i32),
+
+    /// Turn on/off collection and sending of runtime stats.
+    Stats(bool),
 }
 
 impl Request {
@@ -97,6 +100,8 @@ impl Response {
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum Callback {
+    /// The `boot` wasm callback.
+    Boot,
     /// The `update` wasm callback.
     Update,
     /// The `render` wasm callback.
@@ -117,13 +122,15 @@ pub struct Fuel {
     pub max: u32,
 
     /// The average number of instructions executed per run.
-    pub avg: u32,
+    pub mean: u32,
 
-    /// Standard deviation of individual runs from the average.
+    /// Squared standard deviation of individual runs from the average.
     ///
     /// Lower value means more consistent CPU load. Higher values mean
     /// that some runs are fast and some runs are slow.
-    pub stdev: f32,
+    ///
+    /// Take square root to get stdev.
+    pub var: f32,
 
     /// The number of runs of the given callback on the observed interval.
     pub calls: u32,
@@ -142,6 +149,21 @@ pub struct Memory {
     /// assuming that the allocator tries to use lower address values
     /// and that most of data structures in use aren't all zeroes.
     pub last_one: u32,
+
+    /// The number of read operations.
+    ///
+    /// Currently unused. Reserved for future use.
+    pub reads: u32,
+
+    /// The number of write operations.
+    ///
+    /// Currently unused. Reserved for future use.
+    pub writes: u32,
+
+    /// The maximum memory that can be allocated.
+    ///
+    /// Currently unused. Reserved for future use.
+    pub max: u32,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
@@ -151,7 +173,14 @@ pub struct CPU {
     /// Includes executing wasm callbacks, wasm host functions,
     /// rendering frame buffer on the screen, syncing network code, etc.
     /// Basically, everything except when the main thread is sleeping.
+    ///
+    /// Lower is better.
     pub busy_ns: u32,
+
+    /// The time over expected limit taken by updates.
+    ///
+    /// Lower is better. If this value is not zero, the app will be lagging.
+    pub lag_ns: u32,
 
     /// The total duration of the observed interval, in nanoseconds.
     pub total_ns: u32,
