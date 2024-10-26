@@ -1,3 +1,4 @@
+use alloc::borrow::Cow;
 use alloc::boxed::Box;
 use serde::{Deserialize, Serialize};
 
@@ -23,7 +24,7 @@ pub struct BadgeProgress {
 pub struct Badges<'a> {
     /// Detailed information about achievements.
     #[serde(borrow)]
-    pub badges: Box<[Badge<'a>]>,
+    pub badges: Cow<'a, [Badge<'a>]>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]

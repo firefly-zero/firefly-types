@@ -11,6 +11,7 @@
 extern crate alloc;
 
 mod badges;
+mod boards;
 mod meta;
 pub mod serial;
 mod settings;
