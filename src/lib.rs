@@ -13,10 +13,12 @@ extern crate alloc;
 mod badges;
 mod meta;
 pub mod serial;
+mod settings;
 mod stats;
 mod validators;
 
 pub use badges::*;
 pub use meta::{Meta, ShortMeta};
+pub use settings::*;
 pub use stats::Stats;
 pub use validators::*;
