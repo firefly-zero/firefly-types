@@ -92,7 +92,7 @@ impl<'a> Badges<'a> {
         postcard::to_slice(self, buf)
     }
 
-    /// Calculate the buffer size required to encode the meta.
+    /// Calculate the buffer size required to encode the badges.
     #[must_use]
     #[allow(clippy::missing_panics_doc)]
     pub fn size(&self) -> usize {
