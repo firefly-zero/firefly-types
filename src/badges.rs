@@ -1,6 +1,5 @@
 use crate::encode::Encode;
 use alloc::borrow::Cow;
-use alloc::boxed::Box;
 use core::fmt::Display;
 use serde::{Deserialize, Serialize};
 
@@ -26,36 +25,6 @@ impl BadgeValidationError {
 impl Display for BadgeValidationError {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "{}", self.as_str())
-    }
-}
-
-/// The progress that the player made earning badges in the game.
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
-pub struct AppProgress {
-    /// How much XP the player has earned in the game.
-    pub xp: u16,
-
-    /// Progress of earning each badge.
-    pub badges: Box<[u16]>,
-}
-
-pub struct BadgeProgress {
-    /// If true, the earning of the badge hasn't been shown to the player yet.
-    pub new: bool,
-
-    /// How many points are already earned for the badge.
-    pub done: u16,
-
-    /// How many points needed to earn the badge.
-    pub goal: u16,
-}
-
-impl BadgeProgress {
-    /// If the badge has been earned by the player.
-    #[must_use]
-    #[inline]
-    pub const fn earned(&self) -> bool {
-        self.done >= self.goal
     }
 }
 

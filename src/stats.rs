@@ -1,4 +1,5 @@
 use crate::encode::Encode;
+use alloc::boxed::Box;
 use serde::{Deserialize, Serialize};
 
 /// Player-specific app stats, like playtime.
@@ -31,13 +32,50 @@ pub struct Stats {
     /// The date is a tuple of year, month, and day of month.
     pub installed_on: (u16, u8, u8),
 
+    /// The date when the app was updated.
+    ///
+    /// The date is a tuple of year, month, and day of month.
+    pub updated_on: (u16, u8, u8),
+
     /// The date when the app was launched last time.
     ///
     /// The date is a tuple of year, month, and day of month.
     pub launched_on: (u16, u8, u8),
+
+    /// How much XP the player has earned in the game.
+    ///
+    /// Cannot be more than 1000.
+    pub xp: u16,
+
+    /// The progress of earning each badge.
+    ///
+    /// The len is equal to the number of badges that the app has.
+    /// See [`crate::Badges`].
+    pub badges: Box<[BadgeProgress]>,
 }
 
 impl<'a> Encode<'a> for Stats {}
+
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
+pub struct BadgeProgress {
+    /// If true, the earning of the badge hasn't been shown to the player yet.
+    pub new: bool,
+
+    /// How many points are already earned for the badge.
+    pub done: u16,
+
+    /// How many points needed to earn the badge.
+    pub goal: u16,
+}
+
+impl BadgeProgress {
+    /// If the badge has been earned by the player.
+    #[must_use]
+    #[inline]
+    pub const fn earned(&self) -> bool {
+        self.done >= self.goal
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -50,7 +88,10 @@ mod tests {
             longest_play: [21, 22, 23, 24],
             launches: [31, 32, 33, 34],
             installed_on: (2023, 12, 31),
+            updated_on: (2024, 1, 17),
             launched_on: (2024, 2, 28),
+            xp: 32,
+            badges: Box::new([]),
         };
         let mut buf = vec![0; given.size()];
         let raw = given.encode(&mut buf).unwrap();
