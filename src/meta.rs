@@ -26,7 +26,7 @@ impl<'a> Meta<'a> {
         postcard::from_bytes(s)
     }
 
-    /// Encode the matadata using the buffer.
+    /// Encode the metadata using the buffer.
     ///
     /// The buffer is required to avoid allocations on the crate side.
     /// Use [`Meta::size`] to calculate the required buffer size.
@@ -69,7 +69,7 @@ impl<'a> ShortMeta<'a> {
         postcard::from_bytes(s)
     }
 
-    /// Encode the matadata using the buffer.
+    /// Encode the metadata using the buffer.
     ///
     /// The buffer is required to avoid allocations on the crate side.
     /// Use [`ShortMeta::size`] to calculate the required buffer size.
