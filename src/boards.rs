@@ -35,10 +35,10 @@ pub struct Scores {
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct BoardScores {
     /// Top scores of the local player.
-    me: Box<[u32; 16]>,
+    me: Box<[u16; 8]>,
 
     /// Top scores of friends.
-    friends: Box<[FriendScore; 16]>,
+    friends: Box<[FriendScore; 8]>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
@@ -77,12 +77,12 @@ pub struct Board<'a> {
     pub position: u16,
 
     /// The minimum value for a score to be added to the board.
-    pub min: u32,
+    pub min: u16,
 
     /// The maximum value for a score to be added to the board.
     ///
     /// Useful for filtering out obvious cheating.
-    pub max: u32,
+    pub max: u16,
 
     /// If the scores should go in ascending order.
     ///
