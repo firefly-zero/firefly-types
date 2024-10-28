@@ -46,21 +46,24 @@ impl<'a> Encode<'a> for Badges<'a> {}
 
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct Badge<'a> {
-    /// The order in which achievement should be displayed, ascending.
+    /// The order in which badges should be displayed, ascending.
     ///
     /// Earned achievments bubble up.
     pub position: u16,
 
-    /// How much XP earning the achievement brings to the player.
+    /// How much XP earning the badge brings to the player.
     pub xp: u8,
 
-    /// If the achievement should be hidden until earned.
-    pub hidden: bool,
+    /// The number of steps required for the badge to be shown.
+    ///
+    /// If zero, the badge is always shown. If equal to the number of steps
+    /// required to earn the badge, the badge will be shown only when earned.
+    pub hidden: u16,
 
-    /// Human-readable achievement name.
+    /// Human-readable badge name.
     pub name: &'a str,
 
-    /// Human-readable achievement description. Typically, a hint on how to earn it.
+    /// Human-readable badge description. Typically, a hint on how to earn it.
     pub descr: &'a str,
 }
 

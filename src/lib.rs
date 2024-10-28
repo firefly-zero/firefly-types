@@ -24,5 +24,5 @@ pub use boards::*;
 pub use encode::*;
 pub use meta::{Meta, ShortMeta};
 pub use settings::*;
-pub use stats::Stats;
+pub use stats::*;
 pub use validators::*;
