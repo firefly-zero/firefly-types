@@ -1,4 +1,5 @@
 use crate::encode::Encode;
+use alloc::borrow::Cow;
 use alloc::boxed::Box;
 use serde::{Deserialize, Serialize};
 
@@ -52,6 +53,9 @@ pub struct Stats {
     /// The len is equal to the number of badges that the app has.
     /// See [`crate::Badges`].
     pub badges: Box<[BadgeProgress]>,
+
+    /// The high scores
+    scores: Box<[BoardScores]>,
 }
 
 impl<'a> Encode<'a> for Stats {}
@@ -77,6 +81,30 @@ impl BadgeProgress {
     }
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
+pub struct BoardScores {
+    /// Top scores of the local player.
+    me: Box<[u16; 8]>,
+
+    /// Top scores of friends.
+    friends: Box<[FriendScore; 8]>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
+pub struct FriendScore {
+    index: u16,
+    score: u16,
+}
+
+/// List of friends' names.
+///
+/// New friends must be appended at the end to keep the IDs.
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
+pub struct Friends<'a> {
+    #[serde(borrow)]
+    pub friends: Cow<'a, [&'a str]>,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -92,6 +120,7 @@ mod tests {
             launched_on: (2024, 2, 28),
             xp: 32,
             badges: Box::new([]),
+            scores: Box::new([]),
         };
         let mut buf = vec![0; given.size()];
         let raw = given.encode(&mut buf).unwrap();

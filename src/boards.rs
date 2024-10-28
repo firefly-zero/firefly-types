@@ -1,6 +1,5 @@
 use crate::encode::Encode;
 use alloc::borrow::Cow;
-use alloc::boxed::Box;
 use core::fmt::Display;
 use serde::{Deserialize, Serialize};
 
@@ -25,35 +24,6 @@ impl Display for BoardValidationError {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "{}", self.as_str())
     }
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
-pub struct Scores {
-    boards: Box<[BoardScores]>,
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
-pub struct BoardScores {
-    /// Top scores of the local player.
-    me: Box<[u16; 8]>,
-
-    /// Top scores of friends.
-    friends: Box<[FriendScore; 8]>,
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
-pub struct FriendScore {
-    index: u16,
-    score: u16,
-}
-
-/// List of friends' names.
-///
-/// New friends must be appended at the end to keep the IDs.
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
-pub struct Friends<'a> {
-    #[serde(borrow)]
-    pub friends: Cow<'a, [&'a str]>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
