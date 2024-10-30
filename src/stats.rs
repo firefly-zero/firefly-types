@@ -55,7 +55,7 @@ pub struct Stats {
     pub badges: Box<[BadgeProgress]>,
 
     /// The high scores
-    scores: Box<[BoardScores]>,
+    pub scores: Box<[BoardScores]>,
 }
 
 impl<'a> Encode<'a> for Stats {}
@@ -84,16 +84,16 @@ impl BadgeProgress {
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct BoardScores {
     /// Top scores of the local player.
-    me: Box<[u16; 8]>,
+    pub me: Box<[u16; 8]>,
 
     /// Top scores of friends.
-    friends: Box<[FriendScore; 8]>,
+    pub friends: Box<[FriendScore; 8]>,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Copy, Debug, Eq, PartialEq)]
 pub struct FriendScore {
-    index: u16,
-    score: u16,
+    pub index: u16,
+    pub score: u16,
 }
 
 /// List of friends' names.
