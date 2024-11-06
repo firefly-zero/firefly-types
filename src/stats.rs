@@ -1,5 +1,4 @@
 use crate::encode::Encode;
-use alloc::borrow::Cow;
 use alloc::boxed::Box;
 use serde::{Deserialize, Serialize};
 
@@ -84,7 +83,7 @@ impl BadgeProgress {
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct BoardScores {
     /// Top scores of the local player.
-    pub me: Box<[u16; 8]>,
+    pub me: Box<[i16; 8]>,
 
     /// Top scores of friends.
     pub friends: Box<[FriendScore; 8]>,
@@ -93,16 +92,7 @@ pub struct BoardScores {
 #[derive(Serialize, Deserialize, Clone, Copy, Debug, Eq, PartialEq)]
 pub struct FriendScore {
     pub index: u16,
-    pub score: u16,
-}
-
-/// List of friends' names.
-///
-/// New friends must be appended at the end to keep the IDs.
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
-pub struct Friends<'a> {
-    #[serde(borrow)]
-    pub friends: Cow<'a, [&'a str]>,
+    pub score: i16,
 }
 
 #[cfg(test)]

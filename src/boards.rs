@@ -47,18 +47,16 @@ pub struct Board<'a> {
     pub position: u16,
 
     /// The minimum value for a score to be added to the board.
-    pub min: u16,
+    ///
+    /// It's possible to have negative scores when the app needs scores on the board
+    /// to be ordered in ascending order rather than descending.
+    /// So the default minimum is [`i16::MIN`] rather than 0.
+    pub min: i16,
 
     /// The maximum value for a score to be added to the board.
     ///
     /// Useful for filtering out obvious cheating.
-    pub max: u16,
-
-    /// If the scores should go in ascending order.
-    ///
-    /// If false (default), uses descending ("larger is better") order.
-    /// Ascending order makes sense for time in racing games.
-    pub asc: bool,
+    pub max: i16,
 
     /// If the score should be formatted as time.
     pub time: bool,
