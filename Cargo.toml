@@ -1,6 +1,6 @@
 [package]
 name = "firefly-types"
-version = "0.3.0"
+version = "0.4.0"
 rust-version = "1.82.0"
 edition = "2021"
 authors = ["Firefly Zero team"]
@@ -13,6 +13,8 @@ categories = ["encoding", "game-development", "no-std", "parsing", "wasm"]
 
 [dependencies]
 # serialization format designed for no-std embedded systems
-postcard = { version = "1.0.10", default-features = false }
+postcard = { version = "1.0.10", default-features = false, features = [
+    "alloc",
+] }
 # data serialization framework
-serde = { version = "1.0.210", default-features = false, features = ["alloc"] }
+serde = { version = "1.0.215", default-features = false, features = ["alloc"] }

@@ -49,7 +49,7 @@ mod tests {
             version: 12,
         };
         let mut buf = vec![0; given.size()];
-        let raw = given.encode(&mut buf).unwrap();
+        let raw = given.encode_buf(&mut buf).unwrap();
         let actual = Meta::decode(raw).unwrap();
         assert_eq!(given, actual);
     }
@@ -61,7 +61,7 @@ mod tests {
             author_id: "some-author-id",
         };
         let mut buf = vec![0; given.size()];
-        let raw = given.encode(&mut buf).unwrap();
+        let raw = given.encode_buf(&mut buf).unwrap();
         let actual = ShortMeta::decode(raw).unwrap();
         assert_eq!(given, actual);
     }
