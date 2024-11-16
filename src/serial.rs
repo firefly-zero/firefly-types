@@ -137,7 +137,7 @@ mod tests {
     fn test_roundtrip_request() {
         let given = Request::Cheat(3, 4);
         let mut buf = vec![0; given.size()];
-        let raw = given.encode(&mut buf).unwrap();
+        let raw = given.encode_buf(&mut buf).unwrap();
         let actual = Request::decode(raw).unwrap();
         assert_eq!(given, actual);
     }
@@ -146,7 +146,7 @@ mod tests {
     fn test_roundtrip_response() {
         let given = Response::Cheat(13);
         let mut buf = vec![0; given.size()];
-        let raw = given.encode(&mut buf).unwrap();
+        let raw = given.encode_buf(&mut buf).unwrap();
         let actual = Response::decode(raw).unwrap();
         assert_eq!(given, actual);
     }

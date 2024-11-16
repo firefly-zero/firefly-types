@@ -113,7 +113,7 @@ mod tests {
             scores: Box::new([]),
         };
         let mut buf = vec![0; given.size()];
-        let raw = given.encode(&mut buf).unwrap();
+        let raw = given.encode_buf(&mut buf).unwrap();
         let actual = Stats::decode(raw).unwrap();
         assert_eq!(given, actual);
     }
