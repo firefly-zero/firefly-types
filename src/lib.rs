@@ -16,6 +16,7 @@ mod encode;
 mod meta;
 pub mod serial;
 mod settings;
+pub mod spi;
 mod stats;
 mod validators;
 
