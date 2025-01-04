@@ -34,6 +34,7 @@ pub enum Response<'a> {
     NetNoIncoming,
     NetSent,
     Input(Option<(i16, i16)>, u8),
+    PadError,
 }
 
 impl<'a> Encode<'a> for Response<'a> {}
