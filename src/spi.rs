@@ -25,7 +25,7 @@ impl<'a> Encode<'a> for Request<'a> {}
 /// Response that the IO chip sends back to the main chip.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum Response<'a> {
-    NetError(u32),
+    Error(&'a str),
     NetStarted,
     NetStopped,
     NetLocalAddr([u8; 6]),
@@ -34,7 +34,6 @@ pub enum Response<'a> {
     NetNoIncoming,
     NetSent,
     Input(Option<(i16, i16)>, u8),
-    PadError,
 }
 
 impl<'a> Encode<'a> for Response<'a> {}
