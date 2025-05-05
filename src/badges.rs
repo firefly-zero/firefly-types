@@ -67,7 +67,7 @@ pub struct Badge<'a> {
     pub descr: &'a str,
 }
 
-impl<'a> Badge<'a> {
+impl Badge<'_> {
     /// Validate badge attributes.
     ///
     /// # Errors

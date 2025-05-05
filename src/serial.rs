@@ -24,7 +24,7 @@ pub enum Request {
     Stats(bool),
 }
 
-impl<'a> Encode<'a> for Request {}
+impl Encode<'_> for Request {}
 
 /// Messages that the runtime sends to connected clients.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
@@ -37,9 +37,11 @@ pub enum Response {
     CPU(CPU),
     /// Linear memory used by the wasm app.
     Memory(Memory),
+    /// Log record
+    Log(alloc::string::String),
 }
 
-impl<'a> Encode<'a> for Response {}
+impl Encode<'_> for Response {}
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub enum Callback {

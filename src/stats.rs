@@ -57,7 +57,7 @@ pub struct Stats {
     pub scores: Box<[BoardScores]>,
 }
 
-impl<'a> Encode<'a> for Stats {}
+impl Encode<'_> for Stats {}
 
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct BadgeProgress {

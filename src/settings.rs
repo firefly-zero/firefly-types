@@ -20,4 +20,4 @@ pub struct Settings {
     pub timezone: String,
 }
 
-impl<'a> Encode<'a> for Settings {}
+impl Encode<'_> for Settings {}

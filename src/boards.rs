@@ -68,7 +68,7 @@ pub struct Board<'a> {
     pub name: &'a str,
 }
 
-impl<'a> Board<'a> {
+impl Board<'_> {
     /// Validate board attributes.
     ///
     /// # Errors
