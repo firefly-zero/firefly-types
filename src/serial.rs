@@ -7,6 +7,8 @@
 //! Clients (desktop app, CLI, etc) send [`Request`]s
 //! and the runtime (device or emulator) sends back [`Response`]s.
 use crate::encode::Encode;
+use alloc::boxed::Box;
+use alloc::string::String;
 use serde::{Deserialize, Serialize};
 
 /// Messages that clients send into the runtime.
@@ -22,6 +24,24 @@ pub enum Request {
 
     /// Turn on/off collection and sending of runtime stats.
     Stats(bool),
+
+    /// Get the full ID of the currently running app.
+    AppId,
+
+    /// Take a screenshot.
+    Screenshot,
+
+    /// Launch an app.
+    Launch((String, String)),
+
+    /// Launch the launcher.
+    Exit,
+
+    /// Send buttons input.
+    Buttons(u8),
+
+    /// Send data into the running app.
+    Data(Box<[u8]>),
 }
 
 impl Encode<'_> for Request {}
@@ -37,8 +57,12 @@ pub enum Response {
     CPU(CPU),
     /// Linear memory used by the wasm app.
     Memory(Memory),
-    /// Log record
-    Log(alloc::string::String),
+    /// Log record.
+    Log(String),
+    /// Full ID of the currently running app.
+    AppID((String, String)),
+    /// A generic confirmation response for a request.
+    Ok,
 }
 
 impl Encode<'_> for Response {}
@@ -51,7 +75,7 @@ pub enum Callback {
     Update,
     /// The `render` wasm callback.
     Render,
-    /// The `render_line` wasm callback.
+    /// DEPRECATED: The `render_line` wasm callback.
     RenderLine,
     /// The `cheat` wasm callback.
     Cheat,

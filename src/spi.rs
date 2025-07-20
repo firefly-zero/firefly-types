@@ -33,7 +33,7 @@ pub enum Response<'a> {
     NetIncoming([u8; 6], &'a [u8]),
     NetNoIncoming,
     NetSent,
-    Input(Option<(i16, i16)>, u8),
+    Input(Option<(u16, u16)>, u8),
 }
 
 impl<'a> Encode<'a> for Response<'a> {}
