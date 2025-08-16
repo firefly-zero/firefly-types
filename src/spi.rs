@@ -16,6 +16,8 @@ pub enum Request<'a> {
     NetRecv,
     /// Send an outgoing message to the IO chip.
     NetSend([u8; 6], &'a [u8]),
+    /// Get send status of the previous message for the peer.
+    NetSendStatus([u8; 6]),
     /// Get the latest touchpad and buttons inputs.
     ReadInput,
 }
@@ -33,7 +35,20 @@ pub enum Response<'a> {
     NetIncoming([u8; 6], &'a [u8]),
     NetNoIncoming,
     NetSent,
+    NetSendStatus(SendStatus),
     Input(Option<(u16, u16)>, u8),
 }
 
 impl<'a> Encode<'a> for Response<'a> {}
+
+#[derive(Serialize, Deserialize, Clone, Copy, Debug, PartialEq)]
+pub enum SendStatus {
+    /// Trying to send the message. The value is the number of attempts so far.
+    Sending(u8),
+    /// Message is delivered. The value is the number of attempts that it took.
+    Delivered(u8),
+    /// Message delivery failed.
+    Failed,
+    /// No messages were sent to the peer.
+    Empty,
+}
