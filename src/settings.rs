@@ -21,3 +21,11 @@ pub struct Settings {
 }
 
 impl Encode<'_> for Settings {}
+
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
+pub struct BatteryInfo {
+    pub min_voltage: u16,
+    pub max_voltage: u16,
+}
+
+impl Encode<'_> for BatteryInfo {}

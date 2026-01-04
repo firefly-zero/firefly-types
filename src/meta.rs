@@ -1,3 +1,5 @@
+#![allow(clippy::module_name_repetitions)]
+
 use crate::Encode;
 use serde::{Deserialize, Serialize};
 
@@ -19,13 +21,8 @@ pub struct Meta<'a> {
 
 impl<'a> Encode<'a> for Meta<'a> {}
 
-/// A struct with only a few safe fields from Meta.
-///
-/// It is used to serialize information about an app outside of the app dir.
-/// Since it is outside, it escapes the hash and signature checks
-/// and so it must not store any information that must be verified before use.
+/// The full app ID.
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
-#[allow(clippy::module_name_repetitions)]
 pub struct ShortMeta<'a> {
     pub app_id: &'a str,
     pub author_id: &'a str,
