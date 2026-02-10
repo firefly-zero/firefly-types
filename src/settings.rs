@@ -40,8 +40,11 @@ pub struct Settings {
     /// How loud the headphones should play sounds.
     pub headphones_volume: u8,
 
+    /// The preferred font size (text character height) in pixels.
+    pub font_size: u8,
+
     /// Color scheme to use.
-    pub theme: u8,
+    pub theme: u32,
 
     /// Automatically lock the screen after N minutes.
     ///
@@ -63,12 +66,22 @@ pub struct Settings {
 
     /// Let the system apps show easter eggs, holiday effects, and weird jokes.
     pub easter_eggs: bool,
+
+    /// Any feature new fields will be encoded in this field, for backward compatibility.
+    pub extra_flags: u32,
 }
 
 impl Encode<'_> for Settings {}
 
 impl Default for Settings {
     fn default() -> Self {
+        /// * Primary:      Black       (0).
+        /// * Secondary:    Light Gray  (D).
+        /// * Accent:       Green       (6).
+        /// * Background:   White       (C).
+        /// * Index:        default     (00).
+        const DEFAULT_THEME: u32 = 0x_0D_6C_00;
+
         Self {
             xp: 0,
             badges: 0,
@@ -80,13 +93,15 @@ impl Default for Settings {
             leds_brightness: 255,
             speakers_volume: 64,
             headphones_volume: 64,
-            theme: 0,
+            font_size: 9,
+            theme: DEFAULT_THEME,
             auto_lock: 5,
             reduce_flashing: false,
             telemetry: false,
             gamepad_mode: false,
             contrast: false,
             easter_eggs: false,
+            extra_flags: 0,
         }
     }
 }
