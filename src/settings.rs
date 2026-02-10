@@ -19,6 +19,9 @@ pub struct Settings {
     /// A two-letter ASCII ISO 639 Set 1 language code.
     pub lang: [u8; 2],
 
+    /// A two-letter ASCII uppercase ISO 3166-1 alpha-2 country code.
+    pub country: [u8; 2],
+
     /// The device name. Randomly generated when creating vFS.
     pub name: String,
 
@@ -86,6 +89,7 @@ impl Default for Settings {
             xp: 0,
             badges: 0,
             lang: [b'e', b'n'],
+            country: [b'N', b'L'],
             name: "firefly-zero".to_string(),
             timezone: "Europe/Amsterdam".to_string(),
             rotate_screen: false,
