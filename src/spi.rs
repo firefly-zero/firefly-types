@@ -25,11 +25,14 @@ pub enum Request<'a> {
     WifiScan,
     /// Connect to an access point using the given SSID and password.
     WifiConnect(&'a str, &'a str),
+    WifiStatus,
     /// Disconnect from the currently connected Wi-Fi access point.
     WifiDisconnect,
     /// Connect to the TCP server with the given IP address and port number.
     TcpConnect(u32, u16),
-    // TcpWrite(&'a [u8]),
+    /// Fetch the state of the currently open TCP connection.
+    TcpStatus,
+    TcpSend(&'a [u8]),
     // TcpRead,
     /// Close the currently active TCP connection.
     TcpClose,
@@ -65,11 +68,13 @@ pub enum Response<'a> {
     /// The SPI packet size is limited to 255 bits
     /// because we use a single byte to transfer the packet size.
     WifiScan([&'a str; 6]),
+    WifiStatus(u8),
     WifiConnected,
     WifiDisconnected,
 
     TcpConnected,
-    TcpWritten,
+    TcpStatus(u8),
+    TcpSent,
     TcpClosed,
     TcpRespStart(u16),
     TcpRespChunk(&'a [u8]),
