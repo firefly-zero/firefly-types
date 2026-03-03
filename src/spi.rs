@@ -33,7 +33,7 @@ pub enum Request<'a> {
     /// Fetch the state of the currently open TCP connection.
     TcpStatus,
     TcpSend(&'a [u8]),
-    // TcpRead,
+    TcpRecv,
     /// Close the currently active TCP connection.
     TcpClose,
 }
@@ -75,10 +75,8 @@ pub enum Response<'a> {
     TcpConnected,
     TcpStatus(u8),
     TcpSent,
+    TcpChunk(&'a [u8]),
     TcpClosed,
-    TcpRespStart(u16),
-    TcpRespChunk(&'a [u8]),
-    TcpRespEnd,
 }
 
 impl<'a> Encode<'a> for Response<'a> {}
