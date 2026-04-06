@@ -13,6 +13,7 @@ extern crate alloc;
 mod badges;
 mod boards;
 mod encode;
+pub mod manuals;
 mod meta;
 pub mod serial;
 mod settings;
