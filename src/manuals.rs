@@ -1,10 +1,17 @@
 use alloc::string::String;
 use alloc::vec::Vec;
+use serde::{Deserialize, Serialize};
 
+use crate::Encode;
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Manual {
     pub pages: Vec<Page>,
 }
 
+impl Encode<'_> for Manual {}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Page {
     /// The page name as appears in the Table of Contents.
     pub title: String,
@@ -19,6 +26,7 @@ pub struct Page {
     pub content: Vec<Block>,
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum Block {
     /// The biggest header after the page title.
     H2(String),
@@ -42,11 +50,13 @@ pub enum Block {
 
 pub type Paragraph = Vec<Inline>;
 
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Inline {
     pub kind: InlineKind,
     pub content: String,
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub enum InlineKind {
     /// Plain text.
     Plain,
