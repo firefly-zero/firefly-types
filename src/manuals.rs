@@ -56,7 +56,7 @@ pub struct Inline {
     pub content: String,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Copy, Debug)]
 pub enum InlineKind {
     /// Plain text.
     Plain,
