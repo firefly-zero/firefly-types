@@ -55,6 +55,9 @@ pub enum Request<'a> {
 
     /// Close the currently open TCP connection.
     TcpClose,
+
+    /// Get information about the firmware running on the IO chip.
+    FirmwareInfo,
 }
 
 impl<'a> Encode<'a> for Request<'a> {}
@@ -124,6 +127,12 @@ pub enum Response<'a> {
     TcpChunk(&'a [u8]),
     /// Confirmation for [`Request::TcpClose`].
     TcpClosed,
+
+    /// Response for [`Request::FirmwareInfo`].
+    FirmwareInfo {
+        version: (u8, u8, u8),
+        partition: u8,
+    },
 }
 
 impl<'a> Encode<'a> for Response<'a> {}

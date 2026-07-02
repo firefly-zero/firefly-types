@@ -117,3 +117,27 @@ pub struct BatteryInfo {
 }
 
 impl Encode<'_> for BatteryInfo {}
+
+/// Hardware and firmware info stored in `sys/device`.
+///
+/// Unlike [`Settings`], device info cannot be directly changed by the user.
+/// Some of these, however, can be changed with firmware updates.
+#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
+pub struct DeviceInfo {
+    /// Hardware version.
+    pub model: u8,
+    /// Device serial number.
+    pub serial: u32,
+
+    /// Main chip firmware version.
+    pub main_version: (u8, u8, u8),
+    /// IO chip firmware version.
+    pub io_version: (u8, u8, u8),
+
+    /// Currently active partition on the main chip.
+    pub main_partition: u8,
+    /// Currently active partition on the IO chip.
+    pub io_partition: u8,
+}
+
+impl Encode<'_> for DeviceInfo {}
