@@ -64,6 +64,7 @@ pub enum Request<'a> {
     /// The binary firmware image follows this message as a binary stream of bytes.
     /// The first arg is the partition number, the second arg is the image size.
     PartitionWrite(u8, u32),
+    PartitionChunk(&'a [u8]),
 
     /// Swith firmware to use the given partition.
     PartitionSwitch(u8),
@@ -144,6 +145,8 @@ pub enum Response<'a> {
     },
     /// Response for [`Request::PartitionWrite`].
     PartitionWritten,
+    /// Response for [`Request::PartitionChunk`].
+    PartitionChunk,
     /// Response for [`Request::PartitionSwitch`].
     PartitionSwitched,
 }
