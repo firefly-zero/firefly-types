@@ -59,14 +59,9 @@ pub enum Request<'a> {
     /// Get information about the firmware running on the IO chip.
     FirmwareInfo,
 
-    /// Flash the firmware into the given partition.
-    ///
-    /// The binary firmware image follows this message as a binary stream of bytes.
-    /// The first arg is the partition number, the second arg is the image size.
-    PartitionWrite(u8, u32),
-    PartitionChunk(&'a [u8]),
+    FlashWrite(u32, &'a [u8]),
 
-    /// Swith firmware to use the given partition.
+    /// Switch firmware to use the given partition.
     PartitionSwitch(u8),
 }
 
@@ -143,10 +138,8 @@ pub enum Response<'a> {
         version: (u8, u8, u8),
         partition: u8,
     },
-    /// Response for [`Request::PartitionWrite`].
-    PartitionWritten,
-    /// Response for [`Request::PartitionChunk`].
-    PartitionChunk,
+    /// Response for [`Request::FlashWrite`].
+    FlashWritten,
     /// Response for [`Request::PartitionSwitch`].
     PartitionSwitched,
 }
