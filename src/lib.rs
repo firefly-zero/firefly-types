@@ -20,6 +20,7 @@ mod settings;
 pub mod spi;
 mod stats;
 mod validators;
+pub mod wifi;
 
 pub use badges::*;
 pub use boards::*;
