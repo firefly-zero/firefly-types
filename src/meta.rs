@@ -21,15 +21,6 @@ pub struct Meta<'a> {
 
 impl<'a> Encode<'a> for Meta<'a> {}
 
-/// The full app ID.
-#[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
-pub struct ShortMeta<'a> {
-    pub app_id: &'a str,
-    pub author_id: &'a str,
-}
-
-impl<'a> Encode<'a> for ShortMeta<'a> {}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -48,18 +39,6 @@ mod tests {
         let mut buf = vec![0; given.size()];
         let raw = given.encode_buf(&mut buf).unwrap();
         let actual = Meta::decode(raw).unwrap();
-        assert_eq!(given, actual);
-    }
-
-    #[test]
-    fn test_short_meta_roundtrip() {
-        let given = ShortMeta {
-            app_id: "some-app-id",
-            author_id: "some-author-id",
-        };
-        let mut buf = vec![0; given.size()];
-        let raw = given.encode_buf(&mut buf).unwrap();
-        let actual = ShortMeta::decode(raw).unwrap();
         assert_eq!(given, actual);
     }
 }

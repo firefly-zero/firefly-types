@@ -25,7 +25,7 @@ pub mod wifi;
 pub use badges::*;
 pub use boards::*;
 pub use encode::*;
-pub use meta::{Meta, ShortMeta};
+pub use meta::Meta;
 pub use settings::*;
 pub use stats::*;
 pub use validators::*;

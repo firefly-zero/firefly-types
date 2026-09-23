@@ -88,8 +88,8 @@ impl Default for Settings {
         Self {
             xp: 0,
             badges: 0,
-            lang: [b'e', b'n'],
-            country: [b'N', b'L'],
+            lang: *b"en",
+            country: *b"NL",
             name: "firefly-zero".to_string(),
             timezone: "Europe/Amsterdam".to_string(),
             rotate_screen: false,
