@@ -97,7 +97,7 @@ pub fn validate_id(s: &str) -> Result<(), ValidationError> {
 ///
 /// Returns [`ValidationError`] if any of the validation checks fails.
 pub fn validate_name(s: &str) -> Result<(), ValidationError> {
-    if s.len() > 40 {
+    if s.len() > 32 {
         return Err(ValidationError::TooLong);
     }
     if s.ends_with(' ') {
